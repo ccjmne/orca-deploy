@@ -2,12 +2,12 @@
 Docker project for NCLS Development's Orca solution.
 
 # How to use
-Make sure [Docker](https://docs.docker.com/#components) and [Docker Compose](https://docs.docker.com/compose/install/#/install-docker-compose) are installed. If working on an AWS machine, refer to the section [Docker on AWS](//github.com/ccjmne/orca-docker/blob/master/README.md#docker-on-aws).  
+Make sure [Docker](https://docs.docker.com/#components) and [Docker Compose](https://docs.docker.com/compose/install/#/install-docker-compose) are installed. If working on an AWS machine, refer to the [Docker on AWS section](//github.com/ccjmne/orca-docker/blob/master/README.md#docker-on-aws).  
 Ensure being logged in as `nclsdevelopment`: `docker login -u nclsdevelopment`
 
 1. Create a `docker-compose.yml` (see the [docker-compose section](//github.com/ccjmne/orca-docker/blob/master/README.md#docker-compose))
 2. Include the **keystore** to our signed SSL certificate (see the [keystore section](//github.com/ccjmne/orca-docker/blob/master/README.md#keystore))
-3. Build (and push) images for each client with docker-compose:  
+3. Build (and push) images for each client with **docker-compose**:  
    ```
    docker-compose build && docker-compose push
    ```
@@ -22,13 +22,11 @@ Ensure being logged in as `nclsdevelopment`: `docker login -u nclsdevelopment`
 
 ### Docker on AWS
 
-When working with AWS, we can either use the [Amazon ECS-optimized AMI](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) or install it directly using the Package Manager of your distrubution. For instance, the [AWS Linux AMI](https://aws.amazon.com/amazon-linux-ami/) uses **yum**. Use the following procedure to install Docker with yum:
+When working with AWS, we can either use the [Amazon ECS-optimized AMI](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) or install it directly using the Package Manager of your distribution. For instance, the [AWS Linux AMI](https://aws.amazon.com/amazon-linux-ami/) uses **yum**. Refer to the following procedure to install Docker with yum:
 ```sh
 [ec2-user]$ sudo yum update -y
 [ec2-user]$ sudo yum install -y docker
 [ec2-user]$ sudo service docker start
-Next, add the ec2-user to the docker group so you can execute Docker commands without using sudo. Note that you’ll have to log out and log back in for the settings to take effect:
-
 [ec2-user]$ sudo usermod -a -G docker ec2-user
 [ec2-user]$ exit
 
