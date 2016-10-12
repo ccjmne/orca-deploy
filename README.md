@@ -14,12 +14,10 @@ Make sure [Docker](https://docs.docker.com/#components) and [Docker Compose](htt
    ```
    docker run -it -d -p=80:8080 -p=443:8443 -v <local-webapps>:/usr/local/tomcat/webapps --name=webserver nclsdevelopment/orca:<version>-<client-name>
    ```
-   ... where `<local-webapps>` is a directory that will be used to drop in our web apps.
-5. *Hot-deploy* the web applications (front-end and REST API) by uploading them to `<local-webapps>`:
-   ```
-   scp -i <identity> <api-war>.war <user>@<host>:<local-webapps>
-   scp -i <identity> -R <frontend-dir> <user>@<host>:<local-webapps>/ROOT
-   ```
+   Where `<local-webapps>` is a directory that will be used to drop in our web apps.
+5. *Hot-deploy* the API ([ccjmne/orca-api](//github.com/ccjmne/first-aid-officers-maintenance-api)) and the front-end ([ccjmne/orca-ui](//github.com/ccjmne/first-aid-officers-maintenance-ui)) by uploading them to `<local-webapps>`:  
+   `scp -i <identity> <api-war>.war <user>@<host>:<local-webapps>`  
+   `scp -i <identity> -R <font-end-dir> <user>@<host>:<local-webapps>/ROOT`
 
 ### docker-compose
 The `docker-compose.yml` file should use the `version: "2"` notation, in order to use the `args` feature.  
