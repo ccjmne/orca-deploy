@@ -2,10 +2,10 @@
 Docker project for NCLS Development's Orca solution.
 
 # How to use
-Make sure [Docker](//docs.docker.com/#components) and [Docker Compose](//docs.docker.com/compose/install/#/install-docker-compose) are installed.
+Make sure [Docker](https://docs.docker.com/#components) and [Docker Compose](https://docs.docker.com/compose/install/#/install-docker-compose) are installed.
 
 1. Create a `docker-compose.yml` (see the [docker-compose section](//github.com/ccjmne/orca-docker/blob/master/README.md#docker-compose))
-2. Include the **keystore** to our signed SSL certificate (see the [keystore section](//github.com/ccjmne/orca-docker/blob/master/README.md#keystore-file))
+2. Include the **keystore** to our signed SSL certificate (see the [keystore section](//github.com/ccjmne/orca-docker/blob/master/README.md#keystore))
 3. Build (and push) images for each client with docker-compose:  
    ```
    docker-compose build && docker-compose push
@@ -27,7 +27,7 @@ Create one service per client; each built from the unique `Dockerfile` present (
 - `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`: self-explanatory
 - `AWS_ACCESS`, `AWS_SECRET`: identity of an IAM user that needs full access access to `arn:aws:s3:::orca-resources/*`
 - \*`DEMO`: 'true' activates the demonstration mode, taking control of all the data
-- \*`DEMO-CRONWIPE`: [cron expression](//www.quartz-scheduler.org/documentation/quartz-2.2.x/tutorials/crontrigger.html#format) used to trigger the demo data wiping and resetting
+- \*`DEMO-CRONWIPE`: [cron expression](http://www.quartz-scheduler.org/documentation/quartz-2.2.x/tutorials/crontrigger.html#format) used to trigger the demo data wiping and resetting
 - \*`MEMORY`: additional memory options passed to the JVM
 
 \*: optional argument.
