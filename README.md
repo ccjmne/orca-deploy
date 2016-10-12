@@ -17,7 +17,8 @@ Make sure [Docker](https://docs.docker.com/#components) and [Docker Compose](htt
    ... where `<local-webapps>` is a directory that will be used to drop in our web apps.
 5. *Hot-deploy* the web applications (front-end and REST API) by uploading them to `<local-webapps>`:
    ```
-   scp -i <identify> -R <api-war>.war <frontend-dir> <user>@<host>:<local-webapps>
+   scp -i <identity> <api-war>.war <user>@<host>:<local-webapps>
+   scp -i <identity> -R <frontend-dir> <user>@<host>:<local-webapps>/ROOT
    ```
 
 ### docker-compose
