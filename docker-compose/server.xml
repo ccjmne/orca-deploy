@@ -6,15 +6,16 @@
     <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
 
     <Service name="Catalina">
-        <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
-        <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="443" />
-        <Connector port="8443" protocol="org.apache.coyote.http11.Http11Nio2Protocol" sslImplementationName="org.apache.tomcat.util.net.jsse.JSSEImplementation" maxThreads="200" SSLEnabled="true"
-            scheme="https" secure="true" keystoreFile="/root/ssl/star_formationssecurite_fr.jks" keystorePass="03041962" clientAuth="false" sslProtocol="TLS" compression="on" compressionMinSize="1024"
-            compressableMimeType="application/json" />
+        <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" compression="on" compressionMinSize="1024" compressableMimeType="application/json" />
 
         <Engine name="Catalina" defaultHost="localhost">
             <Realm className="org.apache.catalina.realm.LockOutRealm">
-                <Realm />
+                <Realm className="org.apache.catalina.realm.JDBCRealm" driverName="org.postgresql.Driver"
+                    connectionName="${db_user}" connectionPassword="${db_pass}"
+                    connectionURL="jdbc:postgresql://${db_host}:5432/${db_name}"
+                    roleNameCol="usro_type" userCredCol="user_pwd" userNameCol="user_id" userRoleTable="users_roles" userTable="users">
+                    <CredentialHandler className="org.apache.catalina.realm.MessageDigestCredentialHandler" algorithm="md5" />
+                </Realm>
             </Realm>
             <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
                 <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" prefix="localhost_access_log." suffix=".txt" pattern="%h %l %u %t &quot;%r&quot; %s %b" />
