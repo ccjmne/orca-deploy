@@ -1,5 +1,5 @@
 # orca-docker
-Packaging project for NCLS Development's Orca solution.
+Packaging project for NCLS Development's [Orca](https://www.orca-solution.com/) solution.
 
 ## How to use
 
