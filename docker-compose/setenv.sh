@@ -1,0 +1,1 @@
+CATALINA_OPTS="$CATALINA_OPTS -Ddb_user=$db_user -Ddb_pass=$db_pass -Ddb_host=$db_host -Ddb_name=$db_name -Daws.accessKeyId=$aws.accessKeyId -Daws.secretKey=$aws.secretKey -Ddemo=$demo -Dinit.secret=$init.secret";
