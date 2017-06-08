@@ -10,7 +10,7 @@
     "name": "nginx-dnsmasq",
     "image": "bradjonesllc/nginx-dnsmasq",
     "essential": true,
-    "memory": 128,
+    "memory": 32,
     "links": [
       "orca"
     ],
