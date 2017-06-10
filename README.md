@@ -1,5 +1,6 @@
-# orca-docker
-Packaging project for NCLS Development's [Orca](https://www.orca-solution.com/) solution.
+# orca-deploy
+
+Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) solution.
 
 ## Usage
 
@@ -30,8 +31,9 @@ aws ecr get-login | bash
 This section creates a application bundle for [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) to run a [Multi-Container Docker environment](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker_ecs.html) with a ready-to-use Orca Web server.
 
 Using Elastic Beanstalk, the SSL certificates are managed via [AWS Certificate Manager (ACM)](https://aws.amazon.com/certificate-manager/) and installed on a front-facing [Elastic Load Balancer (ELB)](https://aws.amazon.com/elasticloadbalancing/). The distributed certificate is a wildcard, whose renewal is automatically handled by ACM.
-- **Pro:** Easiest setup possible.
-- **Con:** Uses an ELB (per environment), which is somewhat pricy and downright overkill, considering our current needs.
+
+> - **Pro:** Easiest setup possible.
+> - **Con:** Uses an ELB (per environment), which is somewhat pricy and downright overkill, considering our current needs.
 
 ### Usage
 
@@ -48,9 +50,24 @@ This section guides you through setting up client configuration and building too
 
 Managing your own EC2 instance "manually" will use certificates issued by [Let's Encrypt](https://letsencrypt.org/). It might end up somewhat more painful to manage, although their [Certbot](https://certbot.eff.org/) client is very solid when working with NGINX on Ubuntu. The distributed certificates can **not** use wildcards, and thus are issued dynamically for each instance, in turn requiring the corresponding DNS records to have properly propagated before being able to resolve the challenge.
 
-- **Pro:** No additional costs, other than the EC2 instance and data transfer.
-- **Con:** More complex setup.
+> - **Pro:** No additional costs, other than the EC2 instance and data transfer.
+> - **Con:** More complex setup.
 
 ### Usage
 
 > Not documented yet
+
+## Environment variables
+
+| Name | Description |
+| --- | --- |
+| `AWS_ACCESS_KEY_ID`* | Access Key ID of user with full access to arn:aws:s3:::orca-resources |
+| `AWS_SECRET_KEY`* | Secret Key of user with full access to arn:aws:s3:::orca-resources |
+| `ORCA_DB_HOST`* | [RDS](https://aws.amazon.com/rds/) hostname |
+| `ORCA_DB_NAME`* | [RDS](https://aws.amazon.com/rds/) database name |
+| `ORCA_DB_USER`* | Database user name |
+| `ORCA_DB_PASS`* | Database user password |
+| `ORCA_DEMO_ENABLED` | `true` iff the demo mode should be enabled |
+| `ORCA_INIT_SECRET` | Used to trigger a (re)initialisation of the database or a demo data reset |
+
+> **\*** - Required
