@@ -34,5 +34,5 @@ tar -zxvf setup.tar.gz
 
 > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
 ```shell-script
-wget -s https://gist.githubusercontent.com/ccjmne/37bdad7dff99ca7e7a36011f6ad59667/raw/11a541d1b6a1803bb14b012beb4365384e5f42e4/orca-deploy.sh | bash
+curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/master/ec2-ubuntu/utils/deploy.sh | bash
 ```
