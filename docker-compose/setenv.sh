@@ -1,1 +1,1 @@
-CATALINA_OPTS="$CATALINA_OPTS -Ddb_user=$db_user -Ddb_pass=$db_pass -Ddb_host=$db_host -Ddb_name=$db_name -Daws.accessKeyId=$aws.accessKeyId -Daws.secretKey=$aws.secretKey -Ddemo=$demo -Dinit.secret=$init.secret";
+CATALINA_OPTS="$CATALINA_OPTS -Ddb_user=$ORCA_DB_USER -Ddb_pass=$ORCA_DB_PASS -Ddb_host=$ORCA_DB_HOST -Ddb_name=$ORCA_DB_NAME -Ddemo=$ORCA_DEMO_ENABLED -Dinit.secret=$ORCA_INIT_SECRET";
