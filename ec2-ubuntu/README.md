@@ -17,15 +17,22 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 - Set the [expected environment variables](#environment-variables):
   1. Edit the `/ec2-ubuntu/orca.conf.tmpl`
   2. Upload it as `<client id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
-- Upload the setup code to the EC2 instance:
+- Upload the setup code to the EC2 instance **OR use the [alternative](#alternatively)**:
 ```shell-script
 tar -zcvf setup.tar.gz *.{conf,sh}
 scp -i /path/to/pem setup.tar.gz ubuntu@<ip>:/home/ubuntu
 ```
-- Connect onto the instance via SSH for the last step
+- Connect onto the instance via SSH for the last step **OR use the [alternative](#alternatively)**
 
 > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
 ```shell-script
 tar -zxvf setup.tar.gz
 ./setup.sh
+```
+
+### Alternatively
+
+> **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
+```shell-script
+wget -s https://gist.githubusercontent.com/ccjmne/37bdad7dff99ca7e7a36011f6ad59667/raw/11a541d1b6a1803bb14b012beb4365384e5f42e4/orca-deploy.sh | bash
 ```
