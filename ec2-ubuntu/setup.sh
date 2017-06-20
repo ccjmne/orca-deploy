@@ -1,13 +1,17 @@
 #!/bin/sh
 set -e
 
+export __OK='   [\033[0;32m ok \033[0m]'
+export __KO='[\033[0;31m error \033[0m]'
+export __NF=' [\033[1;34m info \033[0m]'
+
 # Requires the ec2-orca-install IAM role to:
-# - list the current instance's tags		from ec2
-# - get client-specific configuration		from s3
-# - access the Orca docker image			from ecr
+# - list the current instance's tags    from ec2
+# - get client-specific configuration   from s3
+# - access the Orca docker image        from ecr
 
 printf "===============================================================================\n\
-  Setting up Orca -- this will take a minute\
+${__NF} Setting up Orca -- this will take a minute\
 \n===============================================================================\n"
 
 # aws cli
@@ -20,21 +24,21 @@ aws ec2 describe-tags --filters "Name=resource-id,Values=`curl -s http://169.254
 sudo apt-get install -y jq
 export clientid=`jq --raw-output ".Tags[] | select(.Key==\"clientid\") | .Value" .ec2-instance-tags`
 printf "===============================================================================\n\
-  Setting up Orca for client: ${clientid:?}\
+${__NF} Setting up Orca for client: \033[1;34m${clientid:?}\033[0m\
 \n===============================================================================\n"
 
 # configuration files
 aws s3 cp s3://orca-clients/${clientid}.conf orca.conf
 sed -i *.conf -e "s/\${clientid}/${clientid:?}/g"
 printf "===============================================================================\n\
-  Configuration files loaded\
+${__OK} Configuration files loaded\
 \n===============================================================================\n"
 
 # nginx
 sudo apt-get install -y nginx
 sudo cp nginx.conf /etc/nginx/conf.d/default.conf
 printf "===============================================================================\n\
-  NGINX installation completed\
+${__OK} NGINX installation completed\
 \n===============================================================================\n"
 
 # let's encrypt's certificates w/ certbot
@@ -46,7 +50,7 @@ sudo apt-get install -y python-certbot-nginx
 sudo certbot --nginx --config certbot.conf --non-interactive
 sudo service nginx restart
 printf "===============================================================================\n\
-  Let's Encrypt certificates installed\
+${__OK} Let's Encrypt certificates installed\
 \n===============================================================================\n"
 
 # docker
@@ -60,7 +64,7 @@ sudo add-apt-repository \
 sudo apt-get update
 sudo apt-get -y install docker-ce
 printf "===============================================================================\n\
-  Docker installation completed\
+${__OK} Docker installation completed\
 \n===============================================================================\n"
 
 # orca
@@ -70,5 +74,5 @@ sudo docker pull 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
 sudo docker run -it -d --memory=420m --restart=on-failure:2 -p=8080:8080 --name=orca --env-file orca.conf 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
 
 printf "===============================================================================\n\
-  All done. Servers are up and running.\
+${__OK} All done. Servers are up and running.\
 \n===============================================================================\n"
