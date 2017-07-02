@@ -5,11 +5,6 @@ export __OK='   [\033[0;32m ok \033[0m]'
 export __KO='[\033[0;31m error \033[0m]'
 export __NF=' [\033[1;34m info \033[0m]'
 
-if [[ $(id -u) != 0 ]]; then
-	echo Need root privileges. Please run with sudo or as root.
-	exit 1;
-fi
-
 # Requires the ec2-orca-install IAM role to:
 # - list the current instance's tags    from ec2
 # - get client-specific configuration   from s3
@@ -90,5 +85,6 @@ docker pull 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
 docker run -it -d --memory=420m --restart=on-failure:2 -p=8080:8080 --name=orca --env-file orca.conf 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
 
 printf "===============================================================================\n\
-${__OK} All done. Servers are up and running.\
+${__OK} All done. Servers are up and running.\n\
+${__NF} Available at: \033[4;97mhttps://\033[1;34m${CLIENT_ID}\033[0;4;97m.orca-solution.com\033[0m\
 \n===============================================================================\n"
