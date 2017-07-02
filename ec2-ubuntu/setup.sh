@@ -23,6 +23,7 @@ pip install --upgrade awscli
 aws ec2 describe-tags --filters "Name=resource-id,Values=`curl -s http://169.254.169.254/latest/meta-data/instance-id`" --region eu-west-1 > .ec2-instance-tags
 apt-get install -y jq
 export CLIENT_ID=`jq --raw-output ".Tags[] | select(.Key==\"clientid\") | .Value" .ec2-instance-tags`
+echo "export CLIENT_ID=${CLIENT_ID}" > ~/.bash_profile
 printf "===============================================================================\n\
 ${__NF} Setting up Orca for client: \033[1;34m${CLIENT_ID:?}\033[0m\
 \n===============================================================================\n"
