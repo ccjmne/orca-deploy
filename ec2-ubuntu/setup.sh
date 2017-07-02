@@ -24,17 +24,17 @@ apt-get update
 apt-get install -y python-pip
 pip install --upgrade awscli
 
-# configure the clientid environment variable using the "clientid" ec2 instance tag
+# configure the CLIENT_ID environment variable using the "clientid" ec2 instance tag
 aws ec2 describe-tags --filters "Name=resource-id,Values=`curl -s http://169.254.169.254/latest/meta-data/instance-id`" --region eu-west-1 > .ec2-instance-tags
 apt-get install -y jq
-export clientid=`jq --raw-output ".Tags[] | select(.Key==\"clientid\") | .Value" .ec2-instance-tags`
+export CLIENT_ID=`jq --raw-output ".Tags[] | select(.Key==\"clientid\") | .Value" .ec2-instance-tags`
 printf "===============================================================================\n\
-${__NF} Setting up Orca for client: \033[1;34m${clientid:?}\033[0m\
+${__NF} Setting up Orca for client: \033[1;34m${CLIENT_ID:?}\033[0m\
 \n===============================================================================\n"
 
 # configuration files
-aws s3 cp s3://orca-clients/${clientid}.conf orca.conf
-sed -i *.conf -e "s/\${clientid}/${clientid:?}/g"
+aws s3 cp s3://orca-clients/${CLIENT_ID}.conf orca.conf
+sed -i *.conf -e "s/\${clientid}/${CLIENT_ID:?}/g"
 printf "===============================================================================\n\
 ${__OK} Configuration files loaded\
 \n===============================================================================\n"
@@ -63,13 +63,14 @@ ${__OK} Let's Encrypt certificates installed\
 apt-get -y install apt-transport-https ca-certificates curl
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 add-apt-repository \
-       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) \
-       stable"
+	"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+	$(lsb_release -cs) \
+	stable"
 apt-get update
 apt-get -y install docker-ce
 
 # set up auto-restart on crash for the docker daemon
+systemctl enable docker.service
 mkdir -p /etc/systemd/system/docker.service.d
 cat > /etc/systemd/system/docker.service.d/override.conf <<EOF
 [Service]
