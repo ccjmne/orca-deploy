@@ -10,14 +10,20 @@ export __NF=' [\033[1;34m info \033[0m]'
 # Requires the ec2-orca-install IAM role to:
 # - access the Orca docker image			from ecr
 
+if [ $# -eq 0 ]; then
+  TAG="latest"
+else
+  TAG="$1"
+fi
+
 printf "===============================================================================\n\
-${__NF} Updating Orca...\
-\n===============================================================================\n"
+${__NF} Updating Orca to \033[1;97morca:${TAG}\033[0m\n\
+===============================================================================\n"
 
 sudo `aws ecr get-login --no-include-email --region eu-west-1`
-sudo docker pull 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
+sudo docker pull 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:$TAG
 sudo docker stop orca || true && sudo docker rm orca || true
-sudo docker run -it -d --memory=420m --restart=on-failure:2 -p=8080:8080 --name=orca --env-file orca.conf 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
+sudo docker run -it -d --memory=420m --restart=on-failure:2 -p=8080:8080 --name=orca --env-file orca.conf 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:$TAG
 
 printf "===============================================================================\n\
 ${__OK} All done. Servers are up and running.\n\
