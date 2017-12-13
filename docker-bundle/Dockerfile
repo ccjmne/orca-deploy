@@ -3,9 +3,6 @@ FROM tomcat:9.0.0.M10-jre8
 # Clean up Tomcat example webapps
 RUN rm -R ${CATALINA_HOME}/webapps
 
-# Embed our webapp(s) in the image
-ADD webapps ${CATALINA_HOME}/webapps
-
 # Create setenv.sh for our Java web app and Tomcat, passing a set of environment variables the the JVM as system properties
 COPY setenv.sh ${CATALINA_HOME}/bin/setenv.sh
 RUN chmod 755 ${CATALINA_HOME}/bin/setenv.sh
@@ -22,7 +19,6 @@ COPY ./server.xml ${CATALINA_HOME}/conf/server.xml
 RUN wget https://jdbc.postgresql.org/download/postgresql-9.4.1211.jar \
 	&& mv postgresql-9.4.1211.jar ${CATALINA_HOME}/lib
 
-
 # Install xvfb to use wkhtmltopdf in the headless environment
 RUN apt-get update
 RUN apt-get install xvfb -y; exit 0
@@ -37,6 +33,9 @@ RUN mv /usr/local/bin/wkhtmlto* /usr/bin/ \
 	&& echo -e '#!/bin/bash\nxvfb-run -a --server-args="-screen 0, 1024x768x24" /usr/bin/wkhtmltopdf -q $*' > /usr/bin/wkhtmltopdf.sh \
 	&& chmod a+x /usr/bin/wkhtmltopdf.sh \
 	&& ln -s /usr/bin/wkhtmltopdf.sh /usr/local/bin/wkhtmltopdf
+
+# Embed our webapp(s) in the image -- last, so subsequent builds only update this step
+ADD webapps ${CATALINA_HOME}/webapps
 
 EXPOSE 8080
 
