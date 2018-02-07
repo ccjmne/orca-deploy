@@ -5,7 +5,7 @@ export __OK='   [\033[0;32m ok \033[0m]'
 export __KO='[\033[0;31m error \033[0m]'
 export __NF=' [\033[1;34m info \033[0m]'
 
-# Environment must be setup beforehand, using setup.sh
+# Environment must be set up beforehand, using setup.sh
 
 # Requires the ec2-orca-install IAM role to:
 # - access the Orca docker image			from ecr
