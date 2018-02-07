@@ -80,12 +80,6 @@ ${__OK} Docker installation completed\
 \n===============================================================================\n"
 
 # orca
-`aws ecr get-login --no-include-email --region eu-west-1`
-docker stop orca || true && docker rm orca || true
-docker pull 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
-docker run -it -d --memory=420m --restart=on-failure:2 -p=8080:8080 --name=orca --env-file orca.conf 424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca:latest
-
-printf "===============================================================================\n\
-${__OK} All done. Servers are up and running.\n\
-${__NF} Available at: \033[4;97mhttps://\033[1;34m${CLIENT_ID}\033[0;4;97m.orca-solution.com\033[0m\
-\n===============================================================================\n"
+# TODO: I'm sure there's a more straightforward way to do that,
+# but then again maybe CLIENT_ID wouldn't be set if it weren't within a new bash session.
+cat ./update.sh | bash
