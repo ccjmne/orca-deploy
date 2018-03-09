@@ -30,7 +30,7 @@ RUN dpkg -i ./wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb; exit 0
 
 # encapsulate wkhtmltopdf calls within xvfb-run
 RUN mv /usr/local/bin/wkhtmlto* /usr/bin/ \
-	&& echo -e '#!/bin/bash\nxvfb-run -a --server-args="-screen 0, 1024x768x24" /usr/bin/wkhtmltopdf -q $*' > /usr/bin/wkhtmltopdf.sh \
+	&& echo -e '#!/bin/bash\nxvfb-run -a --server-args="-screen 0, 1920x1080x24 -dpi 96" /usr/bin/wkhtmltopdf -q $*' > /usr/bin/wkhtmltopdf.sh \
 	&& chmod a+x /usr/bin/wkhtmltopdf.sh \
 	&& ln -s /usr/bin/wkhtmltopdf.sh /usr/local/bin/wkhtmltopdf
 
