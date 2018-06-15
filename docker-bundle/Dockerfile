@@ -27,6 +27,7 @@ RUN apt-get install -fy
 # Install wkhtmltopdf-0.13 from .deb file
 RUN wget https://bitbucket.org/wkhtmltopdf/wkhtmltopdf/downloads/wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb
 RUN dpkg -i ./wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb; exit 0
+RUN rm ./wkhtmltox-0.13.0-alpha-7b36694_linux-jessie-amd64.deb
 
 # encapsulate wkhtmltopdf calls within xvfb-run
 RUN mv /usr/local/bin/wkhtmlto* /usr/bin/ \
