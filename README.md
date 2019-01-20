@@ -7,6 +7,16 @@ Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) s
 1. Build and publish a [Docker](https://www.docker.com/) image of the Web server using the instructions found under `docker-bundle`.
 2. Deploy the environment either using [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) (see [related section](#elastic-beanstalk)) or directly onto a simple [EC2 instance](https://aws.amazon.com/ec2/) (see [related section](#ec2-ubuntu)). The main difference between these two approaches is the SSL setup.
 
+## Release note
+
+Don't forget to compile and publish `setup.tag.gz` with each release:
+```shell-script
+cd ec2-ubuntu/
+tar -zcvf setup.tar.gz *.{conf,sh}
+```
+
+---
+
 ## docker-bundle
 
 This section is used to create and publish a new version of Orca's Web application as a [Docker](https://www.docker.com/) image.
@@ -26,6 +36,8 @@ aws ecr get-login --no-include-email | bash
 - Make sure to have the web app available under the `webapps/` directory
 - Execute `compose.bat <version>`.
 
+---
+
 ## elastic-beanstalk
 
 This section creates a application bundle for [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) to run a [Multi-Container Docker environment](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker_ecs.html) with a ready-to-use Orca Web server.
@@ -44,6 +56,8 @@ Using Elastic Beanstalk, the SSL certificates are managed via [AWS Certificate M
 - Create a `zip` archive from the `Dockerrun.aws.json` and the `nginx-config` directory.
 - Upload to the desired [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) environment.
 
+---
+
 ## ec2-ubuntu
 
 This section guides you through setting up client configuration and building tools to deploy Orca directly onto an [EC2 instance]([EC2](https://aws.amazon.com/ec2/)).
@@ -58,25 +72,23 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 1. Launch an EC2 instance configured as follows:
   - Choose an instance of type _Ubuntu Server_ (e.g.: `ami-a8d2d7ce`).
   - Set its `clientid` tag appropriately.
-  - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens HTTP (:80/tcp), HTTPS (:443/tcp) and SSH (:22/tcp).
+  - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens `HTTP` (`:80/tcp`), `HTTPS` (`:443/tcp`) and `SSH` (`:22/tcp`).
+  - Grant it the `ec2-orca-install` [IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that allows:
+
+| Policy                               | Service                           | Reason                            |
+| ------------------------------------ | --------------------------------- | --------------------------------- |
+| `AmazonEC2ReadOnlyAccess`            | [EC2](https://aws.amazon.com/ec2) | List instance tags                |
+| `AmazonS3ReadOnlyAccess`             | [S3](https://aws.amazon.com/s3)   | Get client-specific configuration |
+| `AmazonEC2ContainerRegistryReadOnly` | [ECR](https://aws.amazon.com/ecr) | Access Orca's docker container    |
+
 2. Create the DNS record for `<client id>.orca-solution.com` pointing to the right instance (use an [Elastic IP](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)).
 3. Set the [expected environment variables](#environment-variables):
   - Edit the `/ec2-ubuntu/orca.conf.tmpl`
   - Upload it as `<client id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
-4. Upload the setup code to the EC2 instance **or use the alternative** and **skip to step 6**
-```shell-script
-tar -zcvf setup.tar.gz *.{conf,sh}
-scp -i /path/to/pem setup.tar.gz ubuntu@<ip>:/home/ubuntu
-```
-5. Connect onto the instance via SSH for the last step **or use the alternative** and **skip to step 6**
+4. Connect onto the machine and install the latest release via the setup script on `master` branch:
 > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
 ```shell-script
-tar -zxvf setup.tar.gz
-./setup.sh
-```
-6. **Alternatively** (and _preferably_), if and only if you have skipped steps 4 and 5, download and run the deployment script on the fly:
-> **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
-```shell-script
+ssh -i /path/to/key.pem ubuntu@<client-id>.orca-solution.com
 curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/master/ec2-ubuntu/utils/deploy.sh | bash
 ```
 
@@ -89,6 +101,8 @@ Use the `update.sh` script installed during the deployment in your home director
 ```
 
 Where `<version>` corresponds to a tag for our web app's Docker container and defaults to `latest`.
+
+---
 
 ## Environment variables
 

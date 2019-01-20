@@ -12,25 +12,23 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 1. Launch an EC2 instance configured as follows:
   - Choose an instance of type _Ubuntu Server_ (e.g.: `ami-a8d2d7ce`).
   - Set its `clientid` tag appropriately.
-  - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens HTTP (:80/tcp), HTTPS (:443/tcp) and SSH (:22/tcp).
+  - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens `HTTP` (`:80/tcp`), `HTTPS` (`:443/tcp`) and `SSH` (`:22/tcp`).
+  - Grant it the `ec2-orca-install` [IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that allows:
+
+| Policy                               | Service                           | Reason                            |
+| ------------------------------------ | --------------------------------- | --------------------------------- |
+| `AmazonEC2ReadOnlyAccess`            | [EC2](https://aws.amazon.com/ec2) | List instance tags                |
+| `AmazonS3ReadOnlyAccess`             | [S3](https://aws.amazon.com/s3)   | Get client-specific configuration |
+| `AmazonEC2ContainerRegistryReadOnly` | [ECR](https://aws.amazon.com/ecr) | Access Orca's docker container    |
+
 2. Create the DNS record for `<client id>.orca-solution.com` pointing to the right instance (use an [Elastic IP](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)).
 3. Set the [expected environment variables](#environment-variables):
   - Edit the `/ec2-ubuntu/orca.conf.tmpl`
   - Upload it as `<client id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
-4. Upload the setup code to the EC2 instance **or use the alternative** and **skip to step 6**
-```shell-script
-tar -zcvf setup.tar.gz *.{conf,sh}
-scp -i /path/to/pem setup.tar.gz ubuntu@<ip>:/home/ubuntu
-```
-5. Connect onto the instance via SSH for the last step **or use the alternative** and **skip to step 6**
+4. Connect onto the machine and install the latest release via the setup script on `master` branch:
 > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
 ```shell-script
-tar -zxvf setup.tar.gz
-./setup.sh
-```
-6. **Alternatively** (and _preferably_), if and only if you have skipped steps 4 and 5, download and run the deployment script on the fly:
-> **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
-```shell-script
+ssh -i /path/to/key.pem ubuntu@<client-id>.orca-solution.com
 curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/master/ec2-ubuntu/utils/deploy.sh | bash
 ```
 
