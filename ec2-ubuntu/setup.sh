@@ -82,7 +82,20 @@ printf "========================================================================
 ${__OK} Docker installation completed\
 \n===============================================================================\n"
 
-# orca
-# TODO: I'm sure there's a more straightforward way to do that,
-# but then again maybe CLIENT_ID wouldn't be set if it weren't within a new bash session.
-cat ./update.sh | bash
+# create swap
+# https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04
+fallocate -l 2G /swapfile && chmod 600 /swapfile
+mkswap /swapfile && swapon /swapfile
+
+# make the swap file permanent
+cp /etc/fstab /etc/fstab.bak
+echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+
+# enable system for docker swap
+# https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
+sed -re 's/^(GRUB_CMDLINE_LINUX)=.*$/\1="cgroup_enable=memory swapaccount=1"/' -i /etc/default/grub && update-grub
+
+printf "===============================================================================\n\
+${__OK} Memory swap file installed and enabled\
+${__NF} System restart required. Run \e[2msudo shutdown -r now\e[0m\
+\n===============================================================================\n"
