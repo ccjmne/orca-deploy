@@ -12,7 +12,7 @@ Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) s
 Don't forget to compile and publish `setup.tag.gz` with each release:
 ```shell-script
 cd ec2-ubuntu/
-tar -zcvf setup.tar.gz *.{conf,sh}
+tar -zcvf setup.tar.gz *.{conf,sh} motd
 ```
 
 ---

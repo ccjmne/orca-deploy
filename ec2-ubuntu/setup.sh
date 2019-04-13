@@ -14,6 +14,9 @@ printf "========================================================================
 ${__NF} Setting up Orca -- this will take a minute\
 \n===============================================================================\n"
 
+# Install message of the day w/ update instructions
+cp ./motd /etc
+
 # aws cli
 apt-get update
 apt-get install -y python-pip
