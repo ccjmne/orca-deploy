@@ -82,6 +82,15 @@ printf "========================================================================
 ${__OK} Docker installation completed\
 \n===============================================================================\n"
 
+echo "
+0  0    1 * *   root    apt-get autoremove
+0  0    1 * *   root    journalctl --vacuum-time=10d" | tee -a /etc/crontab
+service cron reload
+
+printf "===============================================================================\n\
+${__OK} Periodic cleanup tasks autocomated scheduled\
+\n===============================================================================\n"
+
 # create swap
 # https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04
 fallocate -l 2G /swapfile && chmod 600 /swapfile
