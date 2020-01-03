@@ -83,7 +83,7 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 
 2. Create the DNS record for `<client id>.orca-solution.com` pointing to the right instance (use an [Elastic IP](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)).
 3. Set the [expected environment variables](#environment-variables):
-  - Edit the `/ec2-ubuntu/orca.conf.tmpl`
+  - Edit the [configuration template](/ec2-ubuntu/utils/orca.conf.tpl)
   - Upload it as `<client id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
 4. Connect onto the machine and install the latest release via the setup script on `master` branch:
 > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
