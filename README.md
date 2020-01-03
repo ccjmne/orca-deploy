@@ -116,5 +116,6 @@ Where `<version>` corresponds to a tag for our web app's Docker container and de
 | `ORCA_DB_PASS`* | Database user password |
 | `ORCA_DEMO_ENABLED` | `true` iff the demo mode should be enabled |
 | `ORCA_INIT_SECRET` | Used to trigger a (re)initialisation of the database or a demo data reset |
+| `CORS_ORIGIN` | Used to set the `Access-Control-Allow-Origin` header |
 
 > **\*** - Required
