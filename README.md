@@ -28,7 +28,7 @@ The image will be published to our [AWS ECS](https://aws.amazon.com/ecs/) regist
 
 You will need to be logged in using:
 ```shell-script
-aws ecr get-login --no-include-email | bash
+aws ecr get-login-password | docker login --username AWS --password-stdin 424880512736.dkr.ecr.eu-west-1.amazonaws.com
 ```
 
 ### Usage
