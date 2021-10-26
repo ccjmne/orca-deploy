@@ -16,8 +16,8 @@ RUN rm ${CATALINA_HOME}/conf/server.xml
 COPY ./server.xml ${CATALINA_HOME}/conf/server.xml
 
 # Get the posgresql library used by our customised JDBC realm
-RUN wget https://jdbc.postgresql.org/download/postgresql-42.2.9.jar \
-	&& mv postgresql-42.2.9.jar ${CATALINA_HOME}/lib
+RUN wget https://jdbc.postgresql.org/download/postgresql-42.3.0.jar \
+	&& mv postgresql-42.3.0.jar ${CATALINA_HOME}/lib
 
 # Embed our webapp(s) in the image -- last, so subsequent builds only update this step
 ADD webapps ${CATALINA_HOME}/webapps
