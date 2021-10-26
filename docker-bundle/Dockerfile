@@ -1,4 +1,4 @@
-FROM tomcat:9.0.20-jre8
+FROM tomcat:9.0-jre8
 
 # Clean up Tomcat example webapps
 RUN rm -R ${CATALINA_HOME}/webapps
