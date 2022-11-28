@@ -1,4 +1,4 @@
-FROM tomcat:9.0-jdk14
+FROM tomcat:10.0-jdk14
 
 # Clean up Tomcat example webapps
 RUN rm -R ${CATALINA_HOME}/webapps
