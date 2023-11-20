@@ -38,7 +38,7 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
    curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/master/ec2-ubuntu/utils/deploy.sh | bash
    ```
 
-### Update
+### Update Orca
 
 Use the `update.sh` script installed during the deployment in your home directory (`/home/ubuntu`) as follows:
 
@@ -47,3 +47,11 @@ Use the `update.sh` script installed during the deployment in your home director
 ```
 
 Where `<version>` corresponds to a tag for our web app's Docker container and defaults to `latest`.
+
+### Create new versions of the setup script
+
+Create a new release on GitHub and upload the `setup.tar.gz` archive as an asset, generated as follows:
+
+```shell-script
+tar -C setup -czvf setup.tar.gz .
+```
