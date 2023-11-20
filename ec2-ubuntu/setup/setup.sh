@@ -56,7 +56,7 @@ ok "Docker installed successfully."
 
 # Installing NGINX
 info "Installing NGINX..."
-sudo yum install -y nginx
+sudo amazon-linux-extras install nginx1 -y
 envsubst < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
 # See https://nginx.org/en/docs/http/server_names.html#optimization
 # and https://stackoverflow.com/a/13906493/2427596
