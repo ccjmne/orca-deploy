@@ -1,5 +1,5 @@
 server {
-    server_name             ${clientid}.orca-solution.com;
+    server_name             ${CLIENT_ID}.orca-solution.com;
 
     client_max_body_size    0;
     gzip                    on;

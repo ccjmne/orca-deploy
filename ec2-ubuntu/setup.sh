@@ -1,110 +1,102 @@
-#!/bin/sh
+#! /usr/bin/env bash
+
 set -e
 
-export __OK='   [\033[0;32m ok \033[0m]'
-export __KO='[\033[0;31m error \033[0m]'
-export __NF=' [\033[1;34m info \033[0m]'
+trap ctrl_c SIGINT
+function ctrl_c {
+  echo -e "\e[0m"
+  exit 1;
+}
 
-# Requires the ec2-orca-install IAM role to:
-# - list the current instance's tags    from ec2
-# - get client-specific configuration   from s3
-# - access the Orca docker image        from ecr
+source ./utils.sh
 
-printf "===============================================================================\n\
-${__NF} Setting up Orca -- this will take a minute\
-\n===============================================================================\n"
+trap 'catch $? $LINENO' ERR
+catch() {
+  ko "Error $1 occurred on line $2"
+}
 
-# Install message of the day w/ update instructions
-cp ./motd /etc
+# Load persisted environment variables on exit
+trap relog EXIT
 
-# aws cli
-apt-get update
-apt-get install -y python-pip
-pip install --upgrade awscli
+# Update installed packages
+info "Updating installed packages..."
+sudo yum update -y
+ok "Installed packages updated successfully."
 
-# configure the CLIENT_ID environment variable using the "clientid" ec2 instance tag
-aws ec2 describe-tags --filters "Name=resource-id,Values=`curl -s http://169.254.169.254/latest/meta-data/instance-id`" --region eu-west-1 > .ec2-instance-tags
-apt-get install -y jq
-export CLIENT_ID=`jq --raw-output ".Tags[] | select(.Key==\"clientid\") | .Value" .ec2-instance-tags`
-echo "export CLIENT_ID=${CLIENT_ID}" > ~/.bash_profile
-printf "===============================================================================\n\
-${__NF} Setting up Orca for client: \033[1;34m${CLIENT_ID:?}\033[0m\
-\n===============================================================================\n"
+# Downloading Orca configuration file
+options=$(aws s3 ls s3://orca-clients | awk '{ print substr($4, 1, index($4, ".conf") - 1) }')
+info "Available client IDs:"
+for opt in $options; do
+  also "$opt"
+done
+ask "What is your client ID?" CLIENT_ID
+saveenv CLIENT_ID
+aws s3 cp "s3://orca-clients/$CLIENT_ID.conf" orca.conf.tpl
+envsubst < orca.conf.tpl > orca.conf
+ok "Configuration file downloaded successfully."
 
-# configuration files
-aws s3 cp s3://orca-clients/${CLIENT_ID}.conf orca.conf
-sed -i *.conf -e "s/\${clientid}/${CLIENT_ID:?}/g"
-printf "===============================================================================\n\
-${__OK} Configuration files loaded\
-\n===============================================================================\n"
-
-# nginx
-apt-get install -y nginx
-cp nginx.conf /etc/nginx/conf.d/default.conf
-printf "===============================================================================\n\
-${__OK} NGINX installation completed\
-\n===============================================================================\n"
-
-# let's encrypt's certificates w/ certbot
-# see https://certbot.eff.org/#ubuntuxenial-nginx
-apt-get install -y software-properties-common
-add-apt-repository -y ppa:certbot/certbot
-apt-get update
-apt-get install -y python-certbot-nginx
-certbot --nginx --config certbot.conf --non-interactive
-service nginx restart
-printf "===============================================================================\n\
-${__OK} Let's Encrypt certificates installed\
-\n===============================================================================\n"
-
-# docker
-# see https://store.docker.com/editions/community/docker-ce-server-ubuntu
-apt-get -y install apt-transport-https ca-certificates curl
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-add-apt-repository \
-	"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-	$(lsb_release -cs) \
-	stable"
-apt-get update
-apt-get -y install docker-ce
-
-# set up auto-restart on crash for the docker daemon
-systemctl enable docker.service
-mkdir -p /etc/systemd/system/docker.service.d
-cat > /etc/systemd/system/docker.service.d/override.conf <<EOF
-[Service]
-Restart=always
-RestartSec=3
+# Installing Docker
+info "Installing Docker..."
+sudo yum install -y docker
+# Ensure current user belongs to 'docker' group
+sudo usermod -a -G docker "$USER"
+# Keep logs from growing too large
+# See https://docs.docker.com/config/containers/logging/json-file/
+sudo tee /etc/docker/daemon.json <<EOF
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  }
+}
 EOF
+sudo systemctl start docker.service
+sudo systemctl enable docker
+ok "Docker installed successfully."
 
-systemctl daemon-reload
-printf "===============================================================================\n\
-${__OK} Docker installation completed\
-\n===============================================================================\n"
+# Installing NGINX
+info "Installing NGINX..."
+sudo yum install -y nginx
+envsubst < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
+# See https://nginx.org/en/docs/http/server_names.html#optimization
+# and https://stackoverflow.com/a/13906493/2427596
+bucket_size=64
+if grep -q 'server_names_hash_bucket_size' /etc/nginx/nginx.conf; then
+  sudo sed -i 's/.*server_names_hash_bucket_size.*/server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf;
+else
+  sudo sed -i 's/http {/http {\n    server_names_hash_bucket_size '"$bucket_size"';' /etc/nginx/nginx.conf;
+fi
+sudo systemctl start nginx.service
+sudo systemctl enable nginx.service
+ok "NGINX installed successfully."
 
-echo "
+# Installing Let's Encrypt certificates
+info "Installing Let's Encrypt certificates..."
+sudo amazon-linux-extras install epel -y
+sudo yum install -y certbot-nginx
+envsubst < certbot.conf.tpl > certbot.conf
+sudo certbot --nginx --config certbot.conf --non-interactive
+sudo systemctl restart nginx.service
+ok "Let's Encrypt certificates installed successfully."
+
+# Setting up cleanup cron jobs
+info "Setting up cleanup cron jobs..."
+sudo tee -a /etc/crontab <<EOF
 0  0    1 * *   root    apt-get autoremove
-0  0    1 * *   root    journalctl --vacuum-time=10d" | tee -a /etc/crontab
-service cron reload
+0  0    1 * *   root    journalctl --vacuum-time=10d"
+EOF
+sudo systemctl restart crond.service
+ok "Cleanup cron jobs set up successfully."
 
-printf "===============================================================================\n\
-${__OK} Periodic cleanup tasks autocomated scheduled\
-\n===============================================================================\n"
-
-# create swap
-# https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04
-fallocate -l 2G /swapfile && chmod 600 /swapfile
-mkswap /swapfile && swapon /swapfile
-
-# make the swap file permanent
-cp /etc/fstab /etc/fstab.bak
-echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
-
-# enable system for docker swap
-# https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities
-sed -re 's/^(GRUB_CMDLINE_LINUX)=.*$/\1="cgroup_enable=memory swapaccount=1"/' -i /etc/default/grub && update-grub
-
-printf "===============================================================================\n\
-${__OK} Memory swap file installed and enabled\
-${__NF} System restart required. Run \e[2msudo shutdown -r now\e[0m\
-\n===============================================================================\n"
+# Create swapfile
+info "Setting up swap..."
+if ! swapon -s | grep -q '/swapfile'; then
+  sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile
+  sudo mkswap /swapfile && sudo swapon /swapfile
+fi
+# Automatically mount swapfile on boot
+grep -q '/swapfile none swap sw 0 0' /etc/fstab || sudo tee -a /etc/fstab <<EOF
+/swapfile none swap sw 0 0
+EOF
+ok "Swap set up successfully."

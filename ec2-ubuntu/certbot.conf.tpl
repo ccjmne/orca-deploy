@@ -4,4 +4,4 @@ agree-tos               = True
 redirect                = True
 renew-with-new-domains  = True
 keep-until-expiring     = True
-domains                 = ${clientid}.orca-solution.com
+domains                 = ${CLIENT_ID}.orca-solution.com
