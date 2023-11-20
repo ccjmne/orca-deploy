@@ -100,3 +100,9 @@ grep -q '/swapfile none swap sw 0 0' /etc/fstab || sudo tee -a /etc/fstab <<EOF
 /swapfile none swap sw 0 0
 EOF
 ok "Swap set up successfully."
+
+# Set up motd
+info "Setting up motd..."
+sudo mv motd /etc/update-motd.d/00-header
+sudo update-motd --force
+ok "Message of the day set up successfully."
