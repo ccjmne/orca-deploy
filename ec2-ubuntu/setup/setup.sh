@@ -42,12 +42,11 @@ sudo yum install -y docker
 sudo usermod -a -G docker "$USER"
 # Keep logs from growing too large
 # See https://docs.docker.com/config/containers/logging/json-file/
-sudo tee /etc/docker/daemon.json <<EOF
+sudo tee /etc/docker/daemon.json > /dev/null <<EOF
 {
   "log-driver": "json-file",
   "log-opts": {
-    "max-size": "10m",
-    "max-file": "3"
+    "max-size": "10m"
   }
 }
 EOF
