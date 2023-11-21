@@ -30,11 +30,11 @@ ecr=424880512736.dkr.ecr.eu-west-1.amazonaws.com
 
 aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin $ecr
 
-sudo docker pull "$ecr/orca:$TAG"
-sudo docker stop html2pdf || true && (sudo docker rm html2pdf || true)
-sudo docker run -it -d --restart=unless-stopped -p=3000:3000 --memory=200M --memory-swap=1G --name=html2pdf ghcr.io/ccjmne/puppeteer-html2pdf:latest
-sudo docker stop orca || true && (sudo docker rm orca || true)
-sudo docker run -it -d --restart=unless-stopped -p=8080:8080 --memory=200M --memory-swap=1G --name=orca --env-file orca.conf "$ecr/orca:$TAG"
+docker pull "$ecr/orca:$TAG"
+docker stop html2pdf || true && (docker rm html2pdf || true)
+docker run -it -d --restart=unless-stopped -p=3000:3000 --memory=200M --memory-swap=1G --name=html2pdf ghcr.io/ccjmne/puppeteer-html2pdf:latest
+docker stop orca || true && (docker rm orca || true)
+docker run -it -d --restart=unless-stopped -p=8080:8080 --memory=200M --memory-swap=1G --name=orca --env-file orca.conf "$ecr/orca:$TAG"
 
 ok "Orca updated successfully."
 info "Available at: $(say "https://$CLIENT_ID.orca-solution.com" white)"
