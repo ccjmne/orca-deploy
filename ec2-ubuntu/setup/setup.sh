@@ -15,9 +15,6 @@ catch() {
   ko "Error $1 occurred on line $2"
 }
 
-# Load persisted environment variables on exit
-trap relog EXIT
-
 # Update installed packages
 info "Updating installed packages..."
 sudo yum update -y
