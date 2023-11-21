@@ -35,7 +35,7 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 
    ```shell-script
    ssh -i /path/to/key.pem ubuntu@<client-id>.orca-solution.com
-   curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/master/ec2-ubuntu/utils/deploy.sh | bash
+   bash <(curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/pre-revamp/ec2-ubuntu/utils/deploy.sh)
    ```
 
 ### Update Orca
