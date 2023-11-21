@@ -83,7 +83,7 @@ ok "Let's Encrypt certificates installed successfully."
 info "Setting up cleanup cron jobs..."
 sudo tee -a /etc/crontab <<EOF
 0  0    1 * *   root    apt-get autoremove
-0  0    1 * *   root    journalctl --vacuum-time=10d"
+0  0    1 * *   root    journalctl --vacuum-time=10d
 EOF
 sudo systemctl restart crond.service
 ok "Cleanup cron jobs set up successfully."
