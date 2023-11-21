@@ -81,7 +81,9 @@ ok "Let's Encrypt certificates installed successfully."
 
 # Setting up cleanup cron jobs
 info "Setting up cleanup cron jobs..."
-sudo tee -a /etc/crontab <<EOF
+sudo sed -i /etc/crontab -e '/apt-get autoremove/d'
+sudo sed -i /etc/crontab -e '/journalctl --vacuum-time/d'
+sudo tee -a /etc/crontab > /dev/null <<EOF
 0  0    1 * *   root    apt-get autoremove
 0  0    1 * *   root    journalctl --vacuum-time=10d
 EOF
