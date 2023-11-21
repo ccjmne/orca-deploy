@@ -64,7 +64,7 @@ bucket_size=64
 if grep -q 'server_names_hash_bucket_size' /etc/nginx/nginx.conf; then
   sudo sed -i 's/.*server_names_hash_bucket_size.*/server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf;
 else
-  sudo sed -i 's/http {/http {\n    server_names_hash_bucket_size '"$bucket_size"';' /etc/nginx/nginx.conf;
+  sudo sed -i 's/http {/http {\n    server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf;
 fi
 sudo systemctl start nginx.service
 sudo systemctl enable nginx.service
