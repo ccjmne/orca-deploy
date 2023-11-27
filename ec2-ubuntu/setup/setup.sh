@@ -54,7 +54,10 @@ ok "Docker installed successfully."
 # Installing NGINX
 info "Installing NGINX..."
 sudo amazon-linux-extras install nginx1 -y
-envsubst < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
+# shellcheck disable=SC2016 # envsubst requires SHELL-FORMAT variables
+# Avoid substituting nginx-specific variables, e.g. $http_host
+# TODO: Consider using NGINX's official Docker image instead, which apparently accounts for this
+envsubst '$CLIENT_ID' < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
 # See https://nginx.org/en/docs/http/server_names.html#optimization
 # and https://stackoverflow.com/a/13906493/2427596
 bucket_size=64
