@@ -1,5 +1,7 @@
 server {
     server_name             ${CLIENT_ID}.orca-solution.com;
+    listen                  80;
+    listen                  [::]:80;
 
     client_max_body_size    0;
     gzip                    on;
