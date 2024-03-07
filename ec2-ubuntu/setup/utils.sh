@@ -18,8 +18,6 @@ function say {
       echo -e "\e[1;35m$text\e[0m" ;;
     "cyan")
       echo -e "\e[1;36m$text\e[0m" ;;
-    "white")
-      echo -e "\e[1;37m$text\e[0m" ;;
     *)
       echo "Unknown color: $color" ;;
   esac
