@@ -55,5 +55,5 @@ Where `<version>` corresponds to a tag for our web app's Docker container and de
 Create a new release on GitHub and upload the `setup.tar.gz` archive as an asset, generated as follows:
 
 ```shell
-tar -C setup -czvf setup.tar.gz .
+tar --directory setup -czvf setup.tar.gz .
 ```
