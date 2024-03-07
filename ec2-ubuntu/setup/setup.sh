@@ -59,7 +59,7 @@ sudo mv nginx.conf /etc/nginx/nginx.conf
 # shellcheck disable=SC2016 # envsubst requires SHELL-FORMAT variables
 # Avoid substituting nginx-specific variables, e.g. $http_host
 # TODO: Consider using NGINX's official Docker image instead, which apparently accounts for this
-envsubst '$CLIENT_ID' < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
+envsubst '$CLIENT_ID' < nginx-default.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
 sudo systemctl start nginx.service
 sudo systemctl enable nginx.service
 ok "NGINX installed successfully."
