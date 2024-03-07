@@ -43,7 +43,7 @@ function also {
 
 # Usage: ask <prompt> <varname>
 function ask {
-  read -re -p "$(echo -e "[ $(say input white) ] $1 \e[1;37m")" -i "${!2}" "$2" && printf "\e[0m"
+  read -re -p "$(echo -e "[ $(say input yellow) ] $1 \e[1;33m")" -i "${!2}" "$2" && printf "\e[0m"
 }
 
 # Persists/update environment variable to /home/$USER/.bash_profile
