@@ -1,0 +1,10 @@
+[Unit]
+Description=Attempt to renew Let's Encrypt certificates every 2 weeks
+
+# Every 14 days
+[Timer]
+OnCalendar=*-*-* 00:00:00/14
+Persistent=true
+
+[Install]
+WantedBy=timers.target

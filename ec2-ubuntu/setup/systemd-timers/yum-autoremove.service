@@ -1,0 +1,6 @@
+[Unit]
+Description=Run yum autoremove
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/yum autoremove --quiet

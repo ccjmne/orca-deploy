@@ -1,0 +1,6 @@
+[Unit]
+Description=Run journalctl vacuum
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/journalctl --vacuum-time=10d

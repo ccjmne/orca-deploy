@@ -78,18 +78,14 @@ sudo certbot --nginx --config certbot.conf --non-interactive
 sudo systemctl restart nginx.service
 ok "Let's Encrypt certificates installed successfully."
 
-# Setting up maintenance cron jobs
-info "Setting up maintenance cron jobs..."
-sudo sed -i /etc/crontab -e '/apt-get autoremove/d'
-sudo sed -i /etc/crontab -e '/journalctl --vacuum-time/d'
-sudo sed -i /etc/crontab -e '/cerbot renew/d'
-sudo tee -a /etc/crontab > /dev/null << EOF
-  0  0  1  *  * root       apt-get autoremove
-  0  0  1  *  * root       journalctl --vacuum-time=10d
-  0  0  1  *  * root       certbot renew
-EOF
-sudo systemctl restart crond.service
-ok "Maintenance cron jobs set up successfully."
+# Setting up maintenance systemd timers
+info "Setting up maintenance systemd timers..."
+sudo mv systemd-timers/* /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now certbot-renew.timer
+sudo systemctl enable --now yum-autoremove.timer
+sudo systemctl enable --now journalctl-vacuum.timer
+ok "Maintenance systemd timers set up successfully."
 
 # Create swapfile
 info "Setting up swap..."
