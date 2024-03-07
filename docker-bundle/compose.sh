@@ -10,7 +10,7 @@ read -rp "Press Enter to continue..."
 
 ecr=424880512736.dkr.ecr.eu-west-1.amazonaws.com
 
-aws ecr get-login-password | docker login --username AWS --password-stdin $ecr
+aws --profile ncls ecr get-login-password | docker login --username AWS --password-stdin $ecr
 docker buildx use multiarch || docker buildx create --use --name multiarch --platform amd64,arm64
 docker buildx build --platform amd64,arm64 --tag $ecr/orca:"$1" --push .
 echo "Done."
