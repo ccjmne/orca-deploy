@@ -15,6 +15,8 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 - Set its `clientid` tag appropriately.
 - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens `HTTP` (`:80/tcp`), `HTTPS` (`:443/tcp`) and `SSH` (`:22/tcp`).
 
+  - Also ensure that `[::]:80`, `[::]:443` and `[::]:22` are open, for IPv6 support.
+
 - Grant it the `ec2-orca-install` [IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that allows:
 
   | Policy                               | Service                           | Reason                            |
