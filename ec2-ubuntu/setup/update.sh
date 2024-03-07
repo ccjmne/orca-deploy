@@ -24,7 +24,7 @@ then
   relog
 fi
 
-info "Updating Orca to $(say "orca:$TAG" white)..."
+info "Updating Orca to $(say "orca:$TAG" cyan)..."
 
 ecr=424880512736.dkr.ecr.eu-west-1.amazonaws.com
 
@@ -37,4 +37,4 @@ docker stop orca || true && (docker rm orca || true)
 docker run -it -d --restart=unless-stopped -p=8080:8080 --memory=200M --memory-swap=1G --name=orca --env-file orca.conf "$ecr/orca:$TAG"
 
 ok "Orca updated successfully."
-info "Available at: $(say "https://$CLIENT_ID.orca-solution.com" white)"
+info "Available at: $(say "https://$CLIENT_ID.orca-solution.com" cyan)"
