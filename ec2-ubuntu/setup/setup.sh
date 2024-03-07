@@ -53,7 +53,7 @@ ok "Docker installed successfully."
 
 # Installing NGINX
 info "Installing NGINX..."
-sudo amazon-linux-extras install nginx1 -y
+sudo yum install -y nginx
 # shellcheck disable=SC2016 # envsubst requires SHELL-FORMAT variables
 # Avoid substituting nginx-specific variables, e.g. $http_host
 # TODO: Consider using NGINX's official Docker image instead, which apparently accounts for this
@@ -72,7 +72,6 @@ ok "NGINX installed successfully."
 
 # Installing Let's Encrypt certificates
 info "Installing Let's Encrypt certificates..."
-sudo amazon-linux-extras install epel -y
 sudo yum install -y certbot-nginx
 envsubst < certbot.conf.tpl > certbot.conf
 sudo certbot --nginx --config certbot.conf --non-interactive
