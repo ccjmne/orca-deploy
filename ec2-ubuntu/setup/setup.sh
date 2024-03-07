@@ -5,7 +5,7 @@ set -e
 trap ctrl_c SIGINT
 function ctrl_c {
   echo -e "\e[0m"
-  exit 1;
+  exit 1
 }
 
 source ./utils.sh
@@ -39,7 +39,7 @@ sudo yum install -y docker
 sudo usermod -a -G docker "$USER"
 # Keep logs from growing too large
 # See https://docs.docker.com/config/containers/logging/json-file/
-sudo tee /etc/docker/daemon.json > /dev/null <<EOF
+sudo tee /etc/docker/daemon.json > /dev/null << EOF
 {
   "log-driver": "json-file",
   "log-opts": {
@@ -62,9 +62,9 @@ envsubst '$CLIENT_ID' < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf
 # and https://stackoverflow.com/a/13906493/2427596
 bucket_size=64
 if grep -q 'server_names_hash_bucket_size' /etc/nginx/nginx.conf; then
-  sudo sed -i 's/.*server_names_hash_bucket_size.*/server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf;
+  sudo sed -i 's/.*server_names_hash_bucket_size.*/server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf
 else
-  sudo sed -i 's/http {/http {\n    server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf;
+  sudo sed -i 's/http {/http {\n    server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf
 fi
 sudo systemctl start nginx.service
 sudo systemctl enable nginx.service
@@ -83,7 +83,7 @@ info "Setting up maintenance cron jobs..."
 sudo sed -i /etc/crontab -e '/apt-get autoremove/d'
 sudo sed -i /etc/crontab -e '/journalctl --vacuum-time/d'
 sudo sed -i /etc/crontab -e '/cerbot renew/d'
-sudo tee -a /etc/crontab > /dev/null <<EOF
+sudo tee -a /etc/crontab > /dev/null << EOF
   0  0  1  *  * root       apt-get autoremove
   0  0  1  *  * root       journalctl --vacuum-time=10d
   0  0  1  *  * root       certbot renew
@@ -98,7 +98,7 @@ if ! swapon -s | grep -q '/swapfile'; then
   sudo mkswap /swapfile && sudo swapon /swapfile
 fi
 # Automatically mount swapfile on boot
-grep -q '/swapfile none swap sw 0 0' /etc/fstab || sudo tee -a /etc/fstab <<EOF
+grep -q '/swapfile none swap sw 0 0' /etc/fstab || sudo tee -a /etc/fstab << EOF
 /swapfile none swap sw 0 0
 EOF
 ok "Swap set up successfully."
