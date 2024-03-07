@@ -54,18 +54,12 @@ ok "Docker installed successfully."
 # Installing NGINX
 info "Installing NGINX..."
 sudo yum install -y nginx
+# Disable default server block, and increase server_names_hash_bucket_size to 64
+sudo mv nginx.conf /etc/nginx/nginx.conf
 # shellcheck disable=SC2016 # envsubst requires SHELL-FORMAT variables
 # Avoid substituting nginx-specific variables, e.g. $http_host
 # TODO: Consider using NGINX's official Docker image instead, which apparently accounts for this
 envsubst '$CLIENT_ID' < nginx.conf.tpl | sudo tee /etc/nginx/conf.d/default.conf > /dev/null
-# See https://nginx.org/en/docs/http/server_names.html#optimization
-# and https://stackoverflow.com/a/13906493/2427596
-bucket_size=64
-if grep -q 'server_names_hash_bucket_size' /etc/nginx/nginx.conf; then
-  sudo sed -i 's/.*server_names_hash_bucket_size.*/server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf
-else
-  sudo sed -i 's/http {/http {\n    server_names_hash_bucket_size '"$bucket_size"';/' /etc/nginx/nginx.conf
-fi
 sudo systemctl start nginx.service
 sudo systemctl enable nginx.service
 ok "NGINX installed successfully."
