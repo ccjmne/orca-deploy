@@ -11,7 +11,7 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 
 1. Launch an EC2 instance configured as follows:
 
-- Choose an instance of type _Amazon Linux 2 AMI_ (e.g.: `ami-027ba0ceb7df08595`).
+- Choose an instance of type _Amazon Linux 2023 AMI_ (e.g.: `ami-0fc3317b37c1269d3`).
 - Set its `clientid` tag appropriately.
 - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens `HTTP` (`:80/tcp`), `HTTPS` (`:443/tcp`) and `SSH` (`:22/tcp`).
 
