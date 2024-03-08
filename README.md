@@ -127,16 +127,16 @@ tar --directory setup -czvf setup.tar.gz .
 
 ## Environment variables
 
-| Name | Description |
-| --- | --- |
-| `AWS_ACCESS_KEY_ID`* | Access Key ID of user with full access to `arn:aws:s3:::orca-resources` |
-| `AWS_SECRET_KEY`* | Secret Key of user with full access to `arn:aws:s3:::orca-resources` |
-| `ORCA_DB_HOST`* | [RDS](https://aws.amazon.com/rds/) hostname |
-| `ORCA_DB_NAME`* | [RDS](https://aws.amazon.com/rds/) database name |
-| `ORCA_DB_USER`* | Database user name |
-| `ORCA_DB_PASS`* | Database user password |
-| `ORCA_DEMO_ENABLED` | `true` iff the demo mode should be enabled |
-| `ORCA_INIT_SECRET` | Used to trigger a (re)initialisation of the database or a demo data reset |
-| `CORS_ORIGIN` | Used to set the `Access-Control-Allow-Origin` header |
+| Name                  | Description                                                               |
+| --------------------- | ------------------------------------------------------------------------- |
+| `AWS_ACCESS_KEY_ID`\* | Access Key ID of user with full access to `arn:aws:s3:::orca-resources`   |
+| `AWS_SECRET_KEY`\*    | Secret Key of user with full access to `arn:aws:s3:::orca-resources`      |
+| `ORCA_DB_HOST`\*      | [RDS](https://aws.amazon.com/rds/) hostname                               |
+| `ORCA_DB_NAME`\*      | [RDS](https://aws.amazon.com/rds/) database name                          |
+| `ORCA_DB_USER`\*      | Database user name                                                        |
+| `ORCA_DB_PASS`\*      | Database user password                                                    |
+| `ORCA_DEMO_ENABLED`   | `true` iff the demo mode should be enabled                                |
+| `ORCA_INIT_SECRET`    | Used to trigger a (re)initialisation of the database or a demo data reset |
+| `CORS_ORIGIN`         | Used to set the `Access-Control-Allow-Origin` header                      |
 
 > **\*** - Required
