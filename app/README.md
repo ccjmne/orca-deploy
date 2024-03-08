@@ -7,7 +7,7 @@ This section is used to create and publish a new version of Orca's Web applicati
 You'll need to have both the [AWS CLI](https://aws.amazon.com/cli/) and the [Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/) installed and available.  
 The image will be published to our [AWS ECS](https://aws.amazon.com/ecs/) registry (`424880512736.dkr.ecr.eu-west-1.amazonaws.com/orca`).
 
-> [IMPORTANT]  
+> [!TIP]  
 > You will need to have configured a CLI profile named `ncls` that has **write** access to [ECR](https://aws.amazon.com/ecr/) on the `424880512736` account.
 
 ### Usage
