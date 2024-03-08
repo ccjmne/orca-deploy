@@ -4,11 +4,11 @@ Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) s
 
 ## Usage
 
-1. Build and publish a [Docker](https://www.docker.com/) image of the Web server using the instructions found under `docker-bundle`.
+1. Build and publish a [Docker](https://www.docker.com/) image of the Web server using the instructions found under [`app`](./app/README.md).
 2. Deploy the environment either using either:
 
-   - [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) (see [related section](#elastic-beanstalk)), or
-   - directly onto a simple [EC2 instance](https://aws.amazon.com/ec2/) (see [related section](#ec2-ubuntu)).
+   - [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) (see [related section](./eb/README.md)), or
+   - directly onto a simple [EC2 instance](https://aws.amazon.com/ec2/) (see [related section](./ec2/README.md)).
 
    The main difference between these two approaches is the SSL setup.
 
