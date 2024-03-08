@@ -34,7 +34,8 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 
 4. Connect onto the machine and install the latest release via the setup script on `master` branch:
 
-   > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
+   > [!TIP]  
+   > Ensure the DNS records have properly propagated before continuing.
 
    ```shell
    ssh -i /path/to/key.pem ec2-user@<client-id>.orca-solution.com
