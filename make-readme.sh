@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-cat > README.md <<- 'EOF'
+cat <<- 'EOF'
 	# orca-deploy
 
 	Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) solution.
@@ -27,7 +27,7 @@ EOF
 for section in app/README.md eb/README.md ec2/README.md -; do
 	printf '\n---\n\n'
 	cat $section
-done >> README.md <<- 'EOF'
+done <<- 'EOF'
 	## Environment variables
 
 	| Name                  | Description                                                               |
