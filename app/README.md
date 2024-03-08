@@ -13,4 +13,4 @@ The image will be published to our [AWS ECS](https://aws.amazon.com/ecs/) regist
 ### Usage
 
 - Make sure to have the webapp available under the `webapps/` directory
-- Execute `compose.bat <version>`.
+- Execute `compose.sh <version>`.
