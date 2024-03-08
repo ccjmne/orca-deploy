@@ -5,14 +5,19 @@ Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) s
 ## Usage
 
 1. Build and publish a [Docker](https://www.docker.com/) image of the Web server using the instructions found under `docker-bundle`.
-2. Deploy the environment either using [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) (see [related section](#elastic-beanstalk)) or directly onto a simple [EC2 instance](https://aws.amazon.com/ec2/) (see [related section](#ec2-ubuntu)). The main difference between these two approaches is the SSL setup.
+2. Deploy the environment either using either:
+
+   - [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) (see [related section](#elastic-beanstalk)), or
+   - directly onto a simple [EC2 instance](https://aws.amazon.com/ec2/) (see [related section](#ec2-ubuntu)).
+
+   The main difference between these two approaches is the SSL setup.
 
 ## Release note
 
 Don't forget to compile and publish `setup.tag.gz` with each release:
-```shell-script
-cd ec2-ubuntu/
-tar -zcvf setup.tar.gz *.{conf,sh} motd
+
+```shell
+tar --directory ec2/setup -czvf setup.tar.gz .
 ```
 
 ---
