@@ -2,7 +2,7 @@
 
 This section guides you through setting up client configuration and building tools to deploy Orca directly onto an [EC2 instance](https://aws.amazon.com/ec2/).
 
-Managing your own EC2 instance "manually" will use certificates issued by [Let's Encrypt](https://letsencrypt.org/). It might end up somewhat more painful to manage, although their [Certbot](https://certbot.eff.org/) client is very solid when working with NGINX on Ubuntu. The distributed certificates can **not** use wildcards, and thus are issued dynamically for each instance, in turn requiring the corresponding DNS records to have properly propagated before being able to resolve the challenge.
+Managing your own EC2 instance "manually" will use certificates issued by [Let's Encrypt](https://letsencrypt.org/).
 
 > - **Pro:** No additional costs, other than the EC2 instance and data transfer.
 > - **Con:** More complex setup.
@@ -12,7 +12,6 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 1. Launch an EC2 instance configured as follows:
 
 - Choose an instance of type _Amazon Linux 2023 AMI_ (e.g.: `ami-0fc3317b37c1269d3`).
-- Set its `clientid` tag appropriately.
 - Pick a preconfigured [Security Group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) that opens `HTTP` (`:80/tcp`), `HTTPS` (`:443/tcp`) and `SSH` (`:22/tcp`).
 
   - Also ensure that `[::]:80`, `[::]:443` and `[::]:22` are open, for IPv6 support.
