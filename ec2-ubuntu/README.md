@@ -35,13 +35,13 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
    > **IMPORTANT:** Ensure the DNS records have properly propagated before continuing.
 
    ```shell
-   ssh -i /path/to/key.pem ubuntu@<client-id>.orca-solution.com
+   ssh -i /path/to/key.pem ec2-user@<client-id>.orca-solution.com
    bash <(curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/pre-revamp/ec2-ubuntu/utils/deploy.sh)
    ```
 
 ### Update Orca
 
-Use the `update.sh` script installed during the deployment in your home directory (`/home/ubuntu`) as follows:
+Use the `update.sh` script installed during the deployment in your home directory (`/home/ec2-user`) as follows:
 
 ```shell
 ./update.sh <version>
