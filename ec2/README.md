@@ -1,4 +1,4 @@
-## ec2-ubuntu
+## ec2
 
 This section guides you through setting up client configuration and building tools to deploy Orca directly onto an [EC2 instance](https://aws.amazon.com/ec2/).
 
@@ -27,7 +27,7 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 2. Create the DNS record for `<client id>.orca-solution.com` pointing to the right instance (use an [Elastic IP](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)).
 3. Set the [expected environment variables](#environment-variables):
 
-   - Edit the [configuration template](/ec2-ubuntu/utils/orca.conf.tpl)
+   - Edit the [configuration template](/ec2/utils/orca.conf.tpl)
    - Upload it as `<client id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
 
 4. Connect onto the machine and install the latest release via the setup script on `master` branch:
@@ -36,7 +36,7 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
 
    ```shell
    ssh -i /path/to/key.pem ec2-user@<client-id>.orca-solution.com
-   bash <(curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/pre-revamp/ec2-ubuntu/utils/deploy.sh)
+   bash <(curl -s https://raw.githubusercontent.com/ccjmne/orca-deploy/pre-revamp/ec2/utils/deploy.sh)
    ```
 
 ### Update Orca
