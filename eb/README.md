@@ -7,6 +7,8 @@ This section creates a application bundle for [AWS Elastic Beanstalk](https://aw
 
 Using Elastic Beanstalk, the SSL certificates are managed via [AWS Certificate Manager (ACM)](https://aws.amazon.com/certificate-manager/) and installed on a front-facing [Elastic Load Balancer (ELB)](https://aws.amazon.com/elasticloadbalancing/). The distributed certificate is a wildcard, whose renewal is automatically handled by ACM.
 
+> [!NOTE]
+>
 > - **Pro:** Easiest setup possible.
 > - **Con:** Uses an ELB (per environment), which is somewhat pricy and downright overkill, considering our current needs.
 

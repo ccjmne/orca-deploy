@@ -4,6 +4,8 @@ This section guides you through setting up client configuration and building too
 
 Managing your own EC2 instance "manually" will use certificates issued by [Let's Encrypt](https://letsencrypt.org/).
 
+> [!NOTE]
+>
 > - **Pro:** No additional costs, other than the EC2 instance and data transfer.
 > - **Con:** More complex setup.
 
