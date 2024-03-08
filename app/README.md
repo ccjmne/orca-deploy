@@ -1,4 +1,4 @@
-## docker-bundle
+## app
 
 This section is used to create and publish a new version of Orca's Web application as a [Docker](https://www.docker.com/) image.
 
