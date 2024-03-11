@@ -15,13 +15,12 @@ cat - app/README.md eb/README.md ec2/README.md /dev/fd/3 > README.md <<- 'END_HE
 
 	   The main difference between these two approaches is the SSL setup.
 
-	## Release note
-
-	Don't forget to compile and publish `setup.tag.gz` with each release:
-
-	```shell
-	tar --directory ec2/setup -czvf setup.tar.gz .
-	```
+	> [!TIP]  
+	> Don't forget to compile and publish `setup.tag.gz` with each release:
+	>
+	> ```shell
+	> tar --directory ec2/setup -czvf setup.tar.gz .
+	> ```
 END_HEADER
 	## Environment variables
 
