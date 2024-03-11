@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-cat <<- 'EOF'
+cat - app/README.md eb/README.md ec2/README.md /dev/fd/3 > README.md <<- 'END_HEADER' 3<<- 'END_FOOTER'
 	# orca-deploy
 
 	Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) solution.
@@ -22,12 +22,7 @@ cat <<- 'EOF'
 	```shell
 	tar --directory ec2/setup -czvf setup.tar.gz .
 	```
-EOF
-
-for section in app/README.md eb/README.md ec2/README.md -; do
-	printf '\n---\n\n'
-	cat $section
-done <<- 'EOF'
+END_HEADER
 	## Environment variables
 
 	| Name                  | Description                                                               |
@@ -43,4 +38,4 @@ done <<- 'EOF'
 	| `CORS_ORIGIN`         | Used to set the `Access-Control-Allow-Origin` header                      |
 
 	> **\*** - Required
-EOF
+END_FOOTER
