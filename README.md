@@ -19,9 +19,6 @@ Don't forget to compile and publish `setup.tag.gz` with each release:
 ```shell
 tar --directory ec2/setup -czvf setup.tar.gz .
 ```
-
----
-
 ## app
 
 This section is used to create and publish a new version of Orca's Web application as a [Docker](https://www.docker.com/) image.
@@ -38,9 +35,6 @@ The image will be published to our [AWS ECS](https://aws.amazon.com/ecs/) regist
 
 - Make sure to have the webapp available under the `webapps/` directory
 - Execute `compose.sh <version>`.
-
----
-
 ## eb
 
 > [!WARNING]  
@@ -63,9 +57,6 @@ Using Elastic Beanstalk, the SSL certificates are managed via [AWS Certificate M
   3. Set up the [required environment variables](#environment-variables)
 - Create a `zip` archive from the `Dockerrun.aws.json` and the `nginx-config` directory.
 - Upload to the desired [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) environment.
-
----
-
 ## ec2
 
 This section guides you through setting up client configuration and building tools to deploy Orca directly onto an [EC2 instance](https://aws.amazon.com/ec2/).
@@ -127,9 +118,6 @@ Create a new release on GitHub and upload the `setup.tar.gz` archive as an asset
 ```shell
 tar --directory setup -czvf setup.tar.gz .
 ```
-
----
-
 ## Environment variables
 
 | Name                  | Description                                                               |
