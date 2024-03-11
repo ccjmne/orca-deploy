@@ -19,9 +19,9 @@ if ! id --groups --name --zero | grep --null-data --line-regexp --quiet docker
 then
   sudo usermod -a -G docker "$USER"
   info "The current user has been added to the 'docker' group."
-  also "After your session is reloaded, please run this script once more."
-  read -re -n 1 -p "$(also "Press any key to reload your session...")"
-  relog
+  also "Please log out and log back in for the changes to take effect."
+  also "Once your session is resumed, please run this script once more."
+  exit 1
 fi
 
 info "Updating Orca to $(say "orca:$TAG" cyan)..."
