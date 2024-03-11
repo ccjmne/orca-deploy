@@ -12,13 +12,12 @@ Packager project for NCLS Development's [Orca](https://www.orca-solution.com/) s
 
    The main difference between these two approaches is the SSL setup.
 
-## Release note
-
-Don't forget to compile and publish `setup.tag.gz` with each release:
-
-```shell
-tar --directory ec2/setup -czvf setup.tar.gz .
-```
+> [!TIP]  
+> Don't forget to compile and publish `setup.tag.gz` with each release:
+>
+> ```shell
+> tar --directory ec2/setup -czvf setup.tar.gz .
+> ```
 ## app
 
 This section is used to create and publish a new version of Orca's Web application as a [Docker](https://www.docker.com/) image.
