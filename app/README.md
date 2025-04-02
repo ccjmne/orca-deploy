@@ -9,6 +9,7 @@ The image will be published to our [AWS ECS](https://aws.amazon.com/ecs/) regist
 
 > [!TIP]  
 > You will need to have configured a CLI profile named `ncls` that has **write** access to [ECR](https://aws.amazon.com/ecr/) on the `424880512736` account.
+> This profile should provide the *region* as well as the credentials to access the account.
 
 ### Usage
 
