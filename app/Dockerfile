@@ -7,13 +7,11 @@ RUN rm -R ${CATALINA_HOME}/webapps
 COPY setenv.sh ${CATALINA_HOME}/bin/setenv.sh
 RUN chmod 755 ${CATALINA_HOME}/bin/setenv.sh
 
-# Replace existing web.xml with our customised version including a CORS filter
-RUN rm ${CATALINA_HOME}/conf/web.xml
-COPY ./web.xml ${CATALINA_HOME}/conf/web.xml
-
-# Push our server.xml, which uses JVM properties to configure the user realm
-RUN rm ${CATALINA_HOME}/conf/server.xml
-COPY ./server.xml ${CATALINA_HOME}/conf/server.xml
+# Push our custom Tomcat configuration files into the image
+#   context.xml: BasicAuthenticator encoding configuration
+#   web.xml:     CORS filter
+#   server.xml:  User Realm
+COPY context.xml server.xml web.xml ${CATALINA_HOME}/conf/
 
 # Get the posgresql library used by our customised JDBC realm
 RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar \
