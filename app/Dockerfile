@@ -14,8 +14,8 @@ RUN chmod 755 ${CATALINA_HOME}/bin/setenv.sh
 COPY context.xml server.xml web.xml ${CATALINA_HOME}/conf/
 
 # Get the posgresql library used by our customised JDBC realm
-RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar \
-	&& mv postgresql-42.7.1.jar ${CATALINA_HOME}/lib
+RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.7.jar \
+	&& mv postgresql-42.7.7.jar ${CATALINA_HOME}/lib
 
 # Embed our webapp(s) in the image -- last, so subsequent builds only update this step
 ADD webapps ${CATALINA_HOME}/webapps
