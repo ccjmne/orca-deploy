@@ -1,15 +1,12 @@
-#! /usr/bin/env bash
-set -e
+#! /usr/bin/bash -e
 
 # The environment must be set up beforehand, using setup.sh
 
 # Requires the ec2-orca-install IAM role to:
-# - access the Orca docker image			from ecr
+# - access the Orca docker image            from ecr
 
-if [ $# -eq 0 ]; then
-  TAG="latest"
-else
-  TAG="$1"
+if [ $# -eq 0 ]; then TAG="latest"
+else                  TAG="$1"
 fi
 
 source ./utils.sh
