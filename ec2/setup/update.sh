@@ -33,7 +33,6 @@ docker run -it -d           \
   --name     html2pdf       \
   --restart  unless-stopped \
   --publish  3000:3000      \
-  --memory   512M           \
   --env-file html2pdf.conf  \
   ghcr.io/ccjmne/puppeteer-html2pdf:latest
 
