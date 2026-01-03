@@ -81,18 +81,6 @@ sudo systemctl enable --now yum-autoremove.timer
 sudo systemctl enable --now journalctl-vacuum.timer
 ok "Maintenance systemd timers set up successfully."
 
-# Create swapfile
-info "Setting up swap..."
-if ! swapon -s | grep -q '/swapfile'; then
-  sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile
-  sudo mkswap /swapfile && sudo swapon /swapfile
-fi
-# Automatically mount swapfile on boot
-grep -q '/swapfile none swap sw 0 0' /etc/fstab || sudo tee -a /etc/fstab << EOF
-/swapfile none swap sw 0 0
-EOF
-ok "Swap set up successfully."
-
 # Set up motd
 info "Setting up motd..."
 sudo mv motd /etc/update-motd.d/00-header
