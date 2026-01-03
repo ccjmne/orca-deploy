@@ -26,11 +26,11 @@ Managing your own EC2 instance "manually" will use certificates issued by [Let's
   | `AmazonS3ReadOnlyAccess`             | [S3](https://aws.amazon.com/s3)   | Get client-specific configuration |
   | `AmazonEC2ContainerRegistryReadOnly` | [ECR](https://aws.amazon.com/ecr) | Access Orca's docker container    |
 
-2. Create the DNS record for `<client id>.orca-solution.com` pointing to the right instance (use an [Elastic IP](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)).
+2. Create the DNS record for `<client-id>.orca-solution.com` pointing to the right instance (use an [Elastic IP](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)).
 3. Set the [expected environment variables](#environment-variables):
 
    - Edit the [configuration template](/ec2/utils/orca.conf.tpl)
-   - Upload it as `<client id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
+   - Upload it as `<client-id>.conf` in the `orca-clients` S3 bucket (`arn:aws:s3:::orca-clients`).
 
 4. Connect onto the machine and install the latest release via the setup script on `master` branch:
 
