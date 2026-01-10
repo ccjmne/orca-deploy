@@ -41,7 +41,7 @@ docker run -it -d           \
   --name     orca           \
   --restart  unless-stopped \
   --publish  8080:8080      \
-  --memory   192M           \
+  --memory   416M           \
   --env-file orca.conf      \
   "$ecr/orca:$TAG"
 
